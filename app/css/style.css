@@ -1,0 +1,12 @@
+html, body {
+  background-color: #006666;
+  margin: 0;
+  height: 100%; }
+
+#map {
+  margin: 50px auto;
+  height: 60%;
+  width: 60%; }
+
+.testing {
+  width: 71.42857%; }
