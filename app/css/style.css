@@ -1,13 +1,25 @@
 html, body {
-  background-color: #006666;
+  background-color: #00455c;
   margin: 0;
   height: 100%; }
 
 #map {
   margin: 50px auto;
   height: 60%;
-  width: 60%; }
+  width: 100%; }
+
+#form {
+  display: block;
+  margin: 0 auto;
+  width: 200px; }
 
 #result {
+  display: block;
   margin: 0 auto;
-  width: 50%; }
+  width: 700px; }
+
+#read {
+  display: block;
+  margin: 0 auto;
+  width: 120px;
+  /*visibility: hidden;*/ }

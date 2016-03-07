@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
     <title>Flaskpost</title>
     <!-- build:css css/style.min.css -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -10,8 +11,9 @@
 <body>
 
 <div id="map"></div>
-<form id="myForm" action="php/msg.php" method="post">
-    Message: <input type="text" name="mess"/>
+<button id="read">Read message!</button>
+<form id="form" action="php/bottleSend.php" method="post">
+    Message: <textarea name="msg" id="msg" rows="5" cols="40"></textarea>
     <button id="submit">Save</button>
 </form>
 
@@ -19,7 +21,7 @@
 
 <!-- build:js js/main.min.js -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script src="js/main.js"></script>
 <!-- endbuild -->
 </body>

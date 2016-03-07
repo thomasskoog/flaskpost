@@ -28,9 +28,7 @@ gulp.task('watch', ['browserSync', 'sass'], function(){
 
 gulp.task('browserSync', function(){
   browserSync.init({
-    server: {
-      baseDir: 'app'
-    }
+    proxy: "http://localhost"
   })
 });
 
