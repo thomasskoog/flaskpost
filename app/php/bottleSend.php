@@ -7,7 +7,7 @@
     $lng = $_POST['lng'];
 
     try {
-            $stmt = $db->prepare("INSERT INTO messages (msg, lat, lng) VALUES ( :msg, :lat, :lng)");
+            $stmt = $db->prepare("INSERT INTO messages (msg, lat, lng) VALUES ( :msg, :lat, :lng )");
             $stmt->bindParam(':msg', $msg, PDO::PARAM_STR);
             $stmt->bindParam(':lat', $lat, PDO::PARAM_STR);
             $stmt->bindParam(':lng', $lng, PDO::PARAM_STR);

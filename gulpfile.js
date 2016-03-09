@@ -11,7 +11,7 @@ var del = require('del');
 var runSequence = require('run-sequence');
 
 gulp.task('sass', function () {
-  return gulp.src('app/scss/**/*.scss') // Gets all files ending with .scss in app/scss and children dirs
+  return gulp.src('app/scss/**/*.scss')
     .pipe(sass()) // SASS to CSS with gulp-sass
     .pipe(gulp.dest('app/css'))
     .pipe(browserSync.reload({

@@ -1,7 +1,8 @@
 
 var currentPositionMarker,
     mapCenter = new google.maps.LatLng(59.446802000, 18.0719442),
-    map;
+    map,
+    markerArray = [];
 
 $('#submit').click(function(){
     var mess = $.trim($('#msg').val());
@@ -13,7 +14,7 @@ $('#submit').click(function(){
                 lat: phpLat,
                 lng: phpLng,
                 msg: mess
-            }
+            };
             $.post($('#form').attr('action'), bottleSendData, function(info){
                 $('#result').html(info);
                 clearInput();
@@ -54,33 +55,34 @@ function initMap(){
         center: mapCenter,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-    /* Skapa flaskpost-markörer från databasen här? */
-    /* foreach id in messages skapa markör enligt nedanstående mönster + ge unikt id? */
-
+    var bounds = new google.maps.LatLngBounds();
     $.post('php/bottleAll.php', function(bottleArray) {
-        /*$('#result').html(info);*/
+        var bottles = JSON.parse(bottleArray);
+        console.log(bottles);
+        var image = {
+            url: '../images/message-in-a-bottle-w60.png',
+            anchor: new google.maps.Point(0, 94)
+        };
+        var infoWindow = new google.maps.InfoWindow(), marker, i;
 
-        /* loopa igenom assoc-arrayen! */
-        $('#result').html(bottleArray);
+        for (i = 0; i < bottles.length; i++){
+            var position = new google.maps.LatLng(parseFloat(bottles[i].lat), parseFloat(bottles[i].lng));
+            bounds.extend(position);
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                icon: image
+            });
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infoWindow.setContent(bottles[i].msg);
+                    infoWindow.open(map, marker);
+                }
+            })(marker, i));
 
-
-    });
-
-    /*
-    var marker01 = new google.maps.Marker({
-        map: map,
-        animation: google.maps.Animation.DROP,
-        position: {lat: 59.327, lng: 18.067}
-    });
-    marker01.addListener('click', toggleBounce);
-
-    function toggleBounce() {
-        if (marker01.getAnimation() !== null) {
-            marker01.setAnimation(null);
-        } else {
-            marker01.setAnimation(google.maps.Animation.BOUNCE);
+            map.fitBounds(bounds);
         }
-    }*/
+    });
 }
 
 function locError(error){
@@ -88,13 +90,32 @@ function locError(error){
 }
 
 function setCurrentPosition(pos){
+    var image = {
+        url: '../images/pirateship_w75.png',
+        anchor: new google.maps.Point(37, 111)
+    };
     currentPositionMarker = new google.maps.Marker({
         map: map,
         position: new google.maps.LatLng(
             pos.coords.latitude,
             pos.coords.longitude
         ),
-        title: "Current Position"
+        icon: image,
+        title: "Current Position",
+        zIndex: 999
+    });
+    var circle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.20,
+        map: map,
+        center: new google.maps.LatLng(
+            pos.coords.latitude,
+            pos.coords.longitude
+        ),
+        radius: 50
     });
     map.panTo(new google.maps.LatLng(
         pos.coords.latitude,
