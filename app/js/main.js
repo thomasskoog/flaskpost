@@ -2,7 +2,7 @@
 var currentPositionMarker,
     mapCenter = new google.maps.LatLng(59.446802000, 18.0719442),
     map,
-    markerArray = [];
+    readRange = 30;
 
 $('#submit').click(function(){
     var mess = $.trim($('#msg').val());
@@ -33,22 +33,6 @@ function clearInput(){
     });
 }
 
-$('#read').click(function(){
-    /* if('userpos == dbPosMarker'){ */
-     /* navigator.geolocation.getCurrentPosition(function(pos){
-            var lat = pos.coords.latitude;
-            var lng = pos.coords.longitude;
-            var bottleReadData = {
-                lat: lat,
-                lng: lng
-            }
-            $.post('php/bottleRead.php', bottleReadData, function(info) {
-                $('#result').html(info);
-            });
-        }); */
-    /* } */
-});
-
 function initMap(){
     map = new google.maps.Map(document.getElementById('map'),{
         zoom: 17,
@@ -58,13 +42,11 @@ function initMap(){
     var bounds = new google.maps.LatLngBounds();
     $.post('php/bottleAll.php', function(bottleArray) {
         var bottles = JSON.parse(bottleArray);
-        console.log(bottles);
         var image = {
             url: '../images/message-in-a-bottle-w60.png',
             anchor: new google.maps.Point(0, 94)
         };
-        var infoWindow = new google.maps.InfoWindow(), marker, i;
-
+        var infoWindow = new google.maps.InfoWindow({maxWidth: 300}), marker, i;
         for (i = 0; i < bottles.length; i++){
             var position = new google.maps.LatLng(parseFloat(bottles[i].lat), parseFloat(bottles[i].lng));
             bounds.extend(position);
@@ -76,7 +58,10 @@ function initMap(){
             google.maps.event.addListener(marker, 'click', (function(marker, i) {
                 return function() {
                     infoWindow.setContent(bottles[i].msg);
-                    infoWindow.open(map, marker);
+                    var range = google.maps.geometry.spherical.computeDistanceBetween(marker.position, currentPositionMarker.position);
+                    if (range < readRange){
+                        infoWindow.open(map, marker);
+                    }
                 }
             })(marker, i));
 
@@ -105,18 +90,15 @@ function setCurrentPosition(pos){
         zIndex: 999
     });
     var circle = new google.maps.Circle({
-        strokeColor: '#FF0000',
+        strokeColor: '#5e98f0',
         strokeOpacity: 0.5,
         strokeWeight: 2,
-        fillColor: '#FF0000',
+        fillColor: '#5e98f0',
         fillOpacity: 0.20,
         map: map,
-        center: new google.maps.LatLng(
-            pos.coords.latitude,
-            pos.coords.longitude
-        ),
-        radius: 50
+        radius: readRange
     });
+    circle.bindTo('center', currentPositionMarker, 'position');
     map.panTo(new google.maps.LatLng(
         pos.coords.latitude,
         pos.coords.longitude
@@ -131,10 +113,7 @@ function displayAndWatch(position){
 function watchCurrentPosition(){
     navigator.geolocation.watchPosition(
         function (position){
-            setMarkerPosition(
-                currentPositionMarker,
-                position
-            );
+            setMarkerPosition(currentPositionMarker, position);
         }
     );
 }
