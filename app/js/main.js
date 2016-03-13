@@ -64,7 +64,6 @@ function initMap(){
                     }
                 }
             })(marker, i));
-
             map.fitBounds(bounds);
         }
     });
@@ -77,7 +76,7 @@ function locError(error){
 function setCurrentPosition(pos){
     var image = {
         url: '../images/pirateship_w75.png',
-        anchor: new google.maps.Point(37, 111)
+        anchor: new google.maps.Point(37, 100)
     };
     currentPositionMarker = new google.maps.Marker({
         map: map,
