@@ -1,7 +1,20 @@
+@font-face {
+  font-family: "Barlosius";
+  src: url("../fonts/BarlosiusEdged.ttf") format("truetype"); }
+
 html, body {
   background-color: #00455c;
-  margin: 0;
+  margin: 0 auto;
+  position: relative;
   height: 100%; }
+
+h1 {
+  font-family: "Barlosius", "Palatino Linotype Bold Italic", "Adobe Devanagari Bold Italic", serif;
+  font-size: 3rem;
+  letter-spacing: .3rem; }
+
+#logoText {
+  text-align: center; }
 
 #map {
   margin: 50px auto;
@@ -36,7 +49,7 @@ html, body {
 }
 
 .gm-style-iw {
-  width: 300px !important;
+  width: 400px !important;
   top: 15px !important;
   left: 0 !important;
   box-shadow: 0 1px 6px rgba(178,178,178,0.6);
@@ -54,3 +67,6 @@ html, body {
 
 }
 */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 5rem; } }

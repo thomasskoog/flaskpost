@@ -71,7 +71,7 @@ function setBottles(){
                     infoWindow.close();
                     infoWindow.setContent(
                         '<div id="iw-container">' +
-                       '<p>' + bottles[i].msg + '</p>'
+                       '<pre>' + bottles[i].msg + '</pre>'
                         + '</div>'
                     );
                     // Make sure only to display message when within user range
