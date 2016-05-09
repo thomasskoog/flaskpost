@@ -6,7 +6,8 @@ html, body {
   background-color: #00455c;
   margin: 0 auto;
   position: relative;
-  height: 100%; }
+  height: 100%;
+  font-family: sans-serif; }
 
 h1 {
   font-family: "Barlosius", "Palatino Linotype Bold Italic", "Adobe Devanagari Bold Italic", serif;
@@ -24,7 +25,8 @@ h1 {
 #form {
   display: block;
   margin: 0 auto;
-  width: 300px; }
+  width: 300px;
+  color: white; }
 
 #result {
   display: block;
